@@ -4,14 +4,13 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { FC } from 'react'
 import * as Yup from 'yup'
-import { IPost } from '../../services/PostService'
-import axios from 'axios'
+import PostService, { IPost } from '../../services/PostService'
 
 const PostForm: FC = () => {
     const queryClient = useQueryClient()
     const mutation = useMutation({
         mutationFn: (values: Partial<IPost>) => {
-            return axios.post('https://647dab38af984710854a1762.mockapi.io/post', values)
+            return PostService.addOne(values)
         },
         onSuccess: () => {
             queryClient.invalidateQueries(['posts'])

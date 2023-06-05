@@ -8,7 +8,6 @@ import Meta from '../../components/Meta'
 interface PostPageProps extends HTMLAttributes<any>, InferGetStaticPropsType<typeof getStaticProps> {}
 
 const PostPage: FC<PostPageProps> = ({ post }) => {
-    // console.log(post.title)
     return (
         <Stack>
             <Meta title={post.title} description={`${post.body.slice(0, 1800)}...`} />
