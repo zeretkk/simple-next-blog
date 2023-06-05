@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Link from 'next/link'
 const pages = [
     { path: '/', title: 'Главная' },
-    { path: '/posts', title: 'Публикации' },
+    { path: '/users', title: 'Пользователи' },
 ]
 const Header: FC = () => {
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
