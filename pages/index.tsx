@@ -1,15 +1,21 @@
-import { CircularProgress, Grid, Typography } from '@mui/material'
+import { Button, CircularProgress, Collapse, Grid, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import PostService from '../services/PostService'
-import { useEffect } from 'react'
+import AddIcon from '@mui/icons-material/Add'
+import CloseIcon from '@mui/icons-material/Close'
+import { useEffect, useState } from 'react'
 import PostItem from '../components/Posts/PostItem'
+import PostForm from '../components/Posts/PostForm'
 
 export default function Home() {
+    const [isHidden, setIsHidden] = useState(true)
     const { isLoading, isError, data } = useQuery({
-        queryKey: ['todos'],
+        queryKey: ['posts'],
         queryFn: PostService.getAll,
     })
-
+    const handleClick = () => {
+        setIsHidden(!isHidden)
+    }
     useEffect(() => {
         console.log(data)
     }, [isLoading, data])
@@ -46,6 +52,17 @@ export default function Home() {
 
     return (
         <Grid container direction={'column'} gap={2}>
+            <Collapse in={!isHidden}>
+                <Grid item>
+                    <PostForm />
+                </Grid>
+            </Collapse>
+            <Grid item>
+                <Button size="large" fullWidth color="primary" variant="contained" onClick={handleClick}>
+                    {isHidden ? <AddIcon /> : <CloseIcon />}
+                </Button>
+            </Grid>
+
             {data.map((post, i) => {
                 return (
                     <Grid item key={i}>

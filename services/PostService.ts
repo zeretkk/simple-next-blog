@@ -15,6 +15,9 @@ export interface IPost {
 export default class PostService {
     static async getAll() {
         const { data } = await axios.get<IPost[]>(`https://647dab38af984710854a1762.mockapi.io/post`)
-        return data
+        return data.reverse()
+    }
+    static async addOne(data: any) {
+        console.log(data)
     }
 }
