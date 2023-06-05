@@ -6,7 +6,7 @@ const MainLayout: FC<HTMLAttributes<HTMLDivElement>> = ({ children }) => {
     return (
         <>
             <Header />
-            <Container>{children}</Container>
+            <Container sx={{ mt: 2 }}>{children}</Container>
         </>
     )
 }
