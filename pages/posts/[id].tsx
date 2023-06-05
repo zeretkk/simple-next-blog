@@ -3,12 +3,15 @@ import { FC, HTMLAttributes } from 'react'
 import PostService, { IPost } from '../../services/PostService'
 import { Box, Container, Divider, Stack, Typography } from '@mui/material'
 import Image from 'next/image'
+import Meta from '../../components/Meta'
 
 interface PostPageProps extends HTMLAttributes<any>, InferGetStaticPropsType<typeof getStaticProps> {}
 
 const PostPage: FC<PostPageProps> = ({ post }) => {
+    // console.log(post.title)
     return (
         <Stack>
+            <Meta title={post.title} description={`${post.body.slice(0, 1800)}...`} />
             <Box>
                 <Typography variant="h3" align="center">
                     {post.title}

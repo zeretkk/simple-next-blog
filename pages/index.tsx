@@ -6,6 +6,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import { useEffect, useState } from 'react'
 import PostItem from '../components/Posts/PostItem'
 import PostForm from '../components/Posts/PostForm'
+import Meta from '../components/Meta'
 
 export default function Home() {
     const [isHidden, setIsHidden] = useState(true)
@@ -16,9 +17,6 @@ export default function Home() {
     const handleClick = () => {
         setIsHidden(!isHidden)
     }
-    useEffect(() => {
-        console.log(data)
-    }, [isLoading, data])
     if (isLoading) {
         return (
             <Grid
@@ -52,6 +50,7 @@ export default function Home() {
 
     return (
         <Grid container direction={'column'} gap={2}>
+            <Meta title="Главная" description="Главня страница сайта" />
             <Collapse in={!isHidden}>
                 <Grid item>
                     <PostForm />
