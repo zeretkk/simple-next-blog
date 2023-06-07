@@ -28,6 +28,13 @@ const Signin: FC = () => {
                     router.push('/')
                     return
                 }
+                switch (data.error.message) {
+                    case 'Email not confirmed':
+                        setError('Адрес почты не подтвержден')
+                        return
+                    default:
+                        console.log(data.error)
+                }
                 setError('Неверный адрес или пароль')
             })
         },
