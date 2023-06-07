@@ -3,9 +3,11 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Button, Grid, Stack, TextField, Typography } from '@mui/material'
 import UserService from '../../services/userService'
-import KeyIcon from '@mui/icons-material/Key'
+import HowToRegIcon from '@mui/icons-material/HowToReg'
 import { useRouter } from 'next/router'
-const Login: FC = () => {
+import StyledLink from '../../components/StyledLink'
+import Meta from '../../components/Meta'
+const Signin: FC = () => {
     const router = useRouter()
     const [error, setError] = useState('')
     const formik = useFormik({
@@ -21,9 +23,9 @@ const Login: FC = () => {
             email: Yup.string().required('Обязательно для заполнения').email('Не валидный адрес'),
         }),
         onSubmit: (values) => {
-            UserService.signIn(values).then((data) => {
+            UserService.signUp(values).then((data) => {
                 if (!data.error) {
-                    router.push('/')
+                    router.push('/auth/signin')
                     return
                 }
                 setError('Неверный адрес или пароль')
@@ -36,6 +38,7 @@ const Login: FC = () => {
     }
     return (
         <Grid container justifyContent={'center'}>
+            <Meta title='Регистрация' description='' />
             <Stack sx={{ my: 20 }} component={'form'} onSubmit={handleSubmit}>
                 {error && <Typography color={'error'}>{error}</Typography>}
                 <TextField
@@ -62,12 +65,15 @@ const Login: FC = () => {
                     helperText={formik.touched.password && formik.errors.password}
                 />
                 <Button onClick={formik.submitForm} variant={'contained'} size={'large'} type='submit'>
-                    <KeyIcon />
-                    Войти
+                    <HowToRegIcon />
+                    Зарегистрироваться
                 </Button>
+                <StyledLink href={'/auth/signin'} align='center' margin={1}>
+                    Войти в существующий аккант
+                </StyledLink>
             </Stack>
         </Grid>
     )
 }
 
-export default Login
+export default Signin

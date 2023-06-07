@@ -139,7 +139,7 @@ const Header: FC = () => {
                             </Menu>
                         </>
                     ) : (
-                        <Link href='/auth/login'>
+                        <Link href='/auth/signin'>
                             <Button color='secondary'>Войти</Button>
                         </Link>
                     )}

@@ -6,11 +6,11 @@ export interface MetaProps {
     description: string
 }
 
-const Meta: FC<MetaProps> = ({ title, description }) => {
+const Meta: FC<MetaProps> = ({ title, description = '' }) => {
     return (
         <Head>
             <title>{`Sychtest | ${title}`}</title>
-            <meta name="description" content={description} />
+            <meta name='description' content={description} />
         </Head>
     )
 }
