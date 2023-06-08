@@ -32,8 +32,6 @@ const Signin: FC = () => {
                     case 'Email not confirmed':
                         setError('Адрес почты не подтвержден')
                         return
-                    default:
-                        console.log(data.error)
                 }
                 setError('Неверный адрес или пароль')
             })
