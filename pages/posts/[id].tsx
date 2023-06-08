@@ -5,9 +5,9 @@ import { Box, Container, Divider, Stack, Typography } from '@mui/material'
 import Image from 'next/image'
 import Meta from '../../components/Meta'
 
-interface PostPageProps extends HTMLAttributes<any>, InferGetStaticPropsType<typeof getStaticProps> {}
+interface IPostPageProps extends HTMLAttributes<any>, InferGetStaticPropsType<typeof getStaticProps> {}
 
-const PostPage: FC<PostPageProps> = ({ post }) => {
+const PostPage: FC<IPostPageProps> = ({ post }) => {
     return (
         <Stack>
             <Meta title={post.title} description={`${post.body.slice(0, 1800)}...`} />

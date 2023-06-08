@@ -1,21 +1,21 @@
 import { Session, SupabaseClient, User } from '@supabase/supabase-js'
 import { FC, HTMLAttributes, createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { Profile } from '../types/user'
+import { IProfile } from '../types/user'
 
 export interface IAuthContext {
     user: User | null
     session: Session | null
-    profile: Profile | null
+    profile: IProfile | null
 }
 export const AuthContext = createContext<IAuthContext>({ user: null, session: null, profile: null })
 
-export interface AuthProviderProps extends HTMLAttributes<any> {
+export interface IAuthProviderProps extends HTMLAttributes<any> {
     client: SupabaseClient
 }
-const AuthProvider: FC<AuthProviderProps> = ({ client, ...props }) => {
+const AuthProvider: FC<IAuthProviderProps> = ({ client, ...props }) => {
     const [session, setSesion] = useState<Session | null>(null)
     const [user, setUser] = useState<User | null>(null)
-    const [profile, setProfile] = useState<Profile | null>(null)
+    const [profile, setProfile] = useState<IProfile | null>(null)
 
     useEffect(() => {
         client.auth.onAuthStateChange(async (event, session) => {
@@ -30,7 +30,7 @@ const AuthProvider: FC<AuthProviderProps> = ({ client, ...props }) => {
                         .from('profiles')
                         .select('*')
                         .eq('id', session?.user?.id)
-                        .single<Profile>()
+                        .single<IProfile>()
                     if (!error) {
                         setProfile(data)
                     } else {

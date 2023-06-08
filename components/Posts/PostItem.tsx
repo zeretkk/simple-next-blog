@@ -3,11 +3,11 @@ import { FC, HTMLAttributes } from 'react'
 import { IPost } from '../../services/PostService'
 import Link from 'next/link'
 
-export interface PostItemProps extends HTMLAttributes<any> {
+export interface IPostItemProps extends HTMLAttributes<any> {
     post: IPost
 }
 
-const PostItem: FC<PostItemProps> = ({ post, ...attr }) => {
+const PostItem: FC<IPostItemProps> = ({ post, ...attr }) => {
     return (
         <Card {...attr}>
             <CardMedia image={post.poster_url} title={post.title} sx={{ height: 480 }} />
