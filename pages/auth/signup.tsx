@@ -14,6 +14,8 @@ const Signin: FC = () => {
         initialValues: {
             password: '',
             email: '',
+            firstName: '',
+            secondName: '',
         },
         validationSchema: Yup.object({
             password: Yup.string()
@@ -21,6 +23,8 @@ const Signin: FC = () => {
                 .min(6, 'Минимум 6 символов')
                 .max(128, 'Максимум 128 символов'),
             email: Yup.string().required('Обязательно для заполнения').email('Не валидный адрес'),
+            firstName: Yup.string().required('Обязательно для заполнения').max(65, 'Максимум 64 символа'),
+            secondName: Yup.string().required('Обязательно для заполнения').max(65, 'Максимум 64 символа'),
         }),
         onSubmit: (values) => {
             UserService.signUp(values).then((data) => {
@@ -28,7 +32,7 @@ const Signin: FC = () => {
                     router.push('/auth/signin')
                     return
                 }
-                setError('Неверный адрес или пароль')
+                setError('Ошибка создания акаунта')
             })
         },
     })
@@ -51,6 +55,28 @@ const Signin: FC = () => {
                     name='email'
                     error={Boolean(formik.touched.email && formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
+                />
+                <TextField
+                    margin={'dense'}
+                    label={'Имя'}
+                    required
+                    fullWidth
+                    value={formik.values.firstName}
+                    onChange={formik.handleChange}
+                    name='firstName'
+                    error={Boolean(formik.touched.firstName && formik.errors.firstName)}
+                    helperText={formik.touched.firstName && formik.errors.firstName}
+                />
+                <TextField
+                    margin={'dense'}
+                    label={'Фамилия'}
+                    required
+                    fullWidth
+                    value={formik.values.secondName}
+                    onChange={formik.handleChange}
+                    name='secondName'
+                    error={Boolean(formik.touched.secondName && formik.errors.secondName)}
+                    helperText={formik.touched.secondName && formik.errors.secondName}
                 />
                 <TextField
                     margin={'dense'}
