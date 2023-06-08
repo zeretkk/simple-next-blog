@@ -21,7 +21,7 @@ import UserService from '../services/userService'
 
 const pages = [
     { path: '/', title: 'Главная' },
-    { path: '/users', title: 'Пользователи' },
+    { path: '/posts ', title: 'Публикации' },
 ]
 const Header: FC = () => {
     const { profile } = useAuth()
