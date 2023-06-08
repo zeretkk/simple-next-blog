@@ -25,7 +25,6 @@ const pages = [
 ]
 const Header: FC = () => {
     const { profile } = useAuth()
-    console.log(profile)
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
     const [anchorProfileMenu, setProfileMenu] = useState<null | HTMLElement>(null)
     const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {

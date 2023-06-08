@@ -10,15 +10,15 @@ export interface PostItemProps extends HTMLAttributes<any> {
 const PostItem: FC<PostItemProps> = ({ post, ...attr }) => {
     return (
         <Card {...attr}>
-            <CardMedia image={post.poster} title={post.title} sx={{ height: 480 }} />
+            <CardMedia image={post.poster_url} title={post.title} sx={{ height: 480 }} />
 
             <CardContent>
-                <Typography variant="caption">Реакций: {post.reactions} </Typography>
-                <Typography variant="h5">{post.title}</Typography>
+                <Typography variant='caption'>Реакций: {post.reactions} </Typography>
+                <Typography variant='h5'>{post.title}</Typography>
             </CardContent>
             <CardActions>
                 <Link href={`/posts/${post.id}`}>
-                    <Button size="small">Читать</Button>
+                    <Button size='small'>Читать</Button>
                 </Link>
             </CardActions>
         </Card>

@@ -14,7 +14,7 @@ const PostForm: FC = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries(['posts'])
-            formik.resetForm()
+            // formik.resetForm()
         },
     })
     const formik = useFormik({
@@ -22,7 +22,7 @@ const PostForm: FC = () => {
             title: '',
             body: '',
             tags: '',
-            poster: '',
+            poster_url: '',
         },
         validationSchema: Yup.object({
             title: Yup.string()
@@ -33,7 +33,7 @@ const PostForm: FC = () => {
                 .min(5, 'Не менее 5 символов')
                 .max(120, 'Не более 120 символов')
                 .required('Обязательно для заполнения'),
-            poster: Yup.string().url('Должно содержать валидную ссылку').required('Обязательно для заполнения'),
+            poster_url: Yup.string().url('Должно содержать валидную ссылку').required('Обязательно для заполнения'),
             body: Yup.string().min(10, 'Не менее 10 символов').max(1024, 'Не более 1024 символов'),
         }),
         onSubmit: (values) => {
@@ -68,11 +68,11 @@ const PostForm: FC = () => {
             <TextField
                 margin="dense"
                 required
-                error={Boolean(formik.errors.poster)}
+                error={Boolean(formik.errors.poster_url)}
                 label="Постер"
-                name="poster"
-                value={formik.values.poster}
-                helperText={formik.touched.poster && formik.errors.poster ? formik.errors.poster : ''}
+                name="poster_url"
+                value={formik.values.poster_url}
+                helperText={formik.touched.poster_url && formik.errors.poster_url ? formik.errors.poster_url : ''}
                 onChange={formik.handleChange}
                 fullWidth
             />

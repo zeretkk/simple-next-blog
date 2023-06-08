@@ -18,8 +18,8 @@ const PostPage: FC<PostPageProps> = ({ post }) => {
             </Box>
             <Divider />
             <Container sx={{ my: 2 }}>
-                <picture>
-                    <img alt={post.title} src={post.poster} width={640} height={480} />
+                <picture style={{display:'block'}}>
+                    <img alt={post.title} src={post.poster_url} style={{display: "block", width: '100%', height:'auto'}}/>
                 </picture>
             </Container>
             <Divider />
@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps<{ post: IPost }> = async ({ params }
 export const getStaticPaths: GetStaticPaths = async () => {
     const data = await PostService.getAll()
     const paths = data.map((post) => ({
-        params: { id: post.id },
+        params: { id: post.id.toString()  },
     }))
     return { paths, fallback: 'blocking' }
 }
