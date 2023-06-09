@@ -9,30 +9,32 @@ interface IPostPageProps extends HTMLAttributes<any>, InferGetStaticPropsType<ty
 
 const PostPage: FC<IPostPageProps> = ({ post }) => {
     return (
-        <Stack>
-            <Meta title={post.title} description={`${post.body.slice(0, 1800)}...`} />
-            <Box>
-                <Typography variant='h3' align='center'>
-                    {post.title}
-                </Typography>
-            </Box>
-            <Divider />
-            <Container sx={{ my: 2 }}>
-                <picture style={{ display: 'block' }}>
-                    <img
-                        alt={post.title}
-                        src={post.poster_url}
-                        style={{ display: 'block', width: '100%', height: 'auto' }}
-                    />
-                </picture>
-            </Container>
-            <Divider />
+        <Container>
+            <Stack>
+                <Meta title={post.title} description={`${post.body.slice(0, 1800)}...`} />
+                <Box>
+                    <Typography variant='h3' align='center'>
+                        {post.title}
+                    </Typography>
+                </Box>
+                <Divider />
+                <Container sx={{ my: 2 }}>
+                    <picture style={{ display: 'block' }}>
+                        <img
+                            alt={post.title}
+                            src={post.poster_url}
+                            style={{ display: 'block', width: '100%', height: 'auto' }}
+                        />
+                    </picture>
+                </Container>
+                <Divider />
 
-            <Box>
-                {/* TODO: Prettify text renderer */}
-                <Typography>{post.body}</Typography>
-            </Box>
-        </Stack>
+                <Box>
+                    {/* TODO: Prettify text renderer */}
+                    <Typography>{post.body}</Typography>
+                </Box>
+            </Stack>
+        </Container>
     )
 }
 

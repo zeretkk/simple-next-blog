@@ -24,8 +24,9 @@ export default class PostService {
         return data
     }
     static async addOne(values: Partial<IPost>) {
-        // FIXME: extend with messaging
         const { data, error } = await supabaseClient.from('posts').insert([values])
+        if (error) throw error
+        return data
     }
     static async getPaginated({ queryKey }): Promise<IPost[]> {
         const page = queryKey[1]

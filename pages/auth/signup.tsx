@@ -46,7 +46,7 @@ const Signin: FC = () => {
                 <Meta title='Регистрация' description='' />
                 <Stack sx={{ my: 20 }} component={'form'} onSubmit={handleSubmit}>
                     {error && <Typography color={'error'}>{error}</Typography>}
-                    {/* TODO: Prettify form heading */}
+                    <Typography variant={'h3'}>Вход</Typography>
                     <TextField
                         margin={'dense'}
                         label={'E-mail'}
