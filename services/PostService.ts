@@ -9,6 +9,13 @@ export interface IPost {
     reactions: string
     poster_url: string
 }
+export interface IComent {
+    id: number
+    created_at: string
+    post_id: number
+    author_id: string
+    body: string
+}
 
 export default class PostService {
     static async getAll(): Promise<IPost[]> {
@@ -36,5 +43,11 @@ export default class PostService {
         })
         if (error) throw error
         return data
+    }
+    static async getComents({ queryKey }): Promise<IComent[]> {
+        const postId = queryKey[1]
+        const { data, error } = await supabaseClient.from('coments').select('*').eq('post_id', postId)
+        if (error) throw error
+        return data as IComent[]
     }
 }

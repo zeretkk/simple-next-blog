@@ -1,13 +1,22 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { FC, HTMLAttributes } from 'react'
 import PostService, { IPost } from '../../services/PostService'
-import { Box, Container, Divider, Stack, Typography } from '@mui/material'
-import Image from 'next/image'
+import { Box, Button, CircularProgress, Container, Divider, IconButton, Stack, Typography } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 import Meta from '../../components/Meta'
+import { useQuery } from '@tanstack/react-query'
 
 interface IPostPageProps extends HTMLAttributes<any>, InferGetStaticPropsType<typeof getStaticProps> {}
 
 const PostPage: FC<IPostPageProps> = ({ post }) => {
+    const {
+        data: coments,
+        isLoading,
+        isError,
+    } = useQuery({
+        queryKey: ['coments', post.id],
+        queryFn: PostService.getComents,
+    })
     return (
         <Container>
             <Stack>
@@ -27,11 +36,26 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
                         />
                     </picture>
                 </Container>
-                <Divider />
-
                 <Box>
-                    {/* TODO: Prettify text renderer */}
+                    <Divider />
                     <Typography>{post.body}</Typography>
+                </Box>
+                <Box sx={{ my: 2 }}>
+                    <Typography variant='h5'>
+                        Коментарии{' '}
+                        <IconButton>
+                            <AddIcon />
+                        </IconButton>
+                    </Typography>
+                    <Divider />
+                    <Stack>
+                        {isLoading && <CircularProgress />}
+                        {isError && <Typography color={'error'}>Ошибка при получении коментариев</Typography>}
+                        {coments &&
+                            coments.map((coment, i) => {
+                                return <Typography key={i}>{coment.body}</Typography>
+                            })}
+                    </Stack>
                 </Box>
             </Stack>
         </Container>
