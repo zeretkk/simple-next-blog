@@ -29,6 +29,7 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
             <Divider />
 
             <Box>
+                {/* TODO: Prettify text renderer */}
                 <Typography>{post.body}</Typography>
             </Box>
         </Stack>

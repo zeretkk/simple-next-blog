@@ -1,7 +1,7 @@
 import { FC, FormEvent, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import {Button, Container, Grid, Stack, TextField, Typography} from '@mui/material'
+import { Button, Container, Grid, Stack, TextField, Typography } from '@mui/material'
 import UserService from '../../services/userService'
 import HowToRegIcon from '@mui/icons-material/HowToReg'
 import { useRouter } from 'next/router'
@@ -46,6 +46,7 @@ const Signin: FC = () => {
                 <Meta title='Регистрация' description='' />
                 <Stack sx={{ my: 20 }} component={'form'} onSubmit={handleSubmit}>
                     {error && <Typography color={'error'}>{error}</Typography>}
+                    {/* TODO: Prettify form heading */}
                     <TextField
                         margin={'dense'}
                         label={'E-mail'}
@@ -101,7 +102,6 @@ const Signin: FC = () => {
                 </Stack>
             </Grid>
         </Container>
-
     )
 }
 

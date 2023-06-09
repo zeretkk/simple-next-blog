@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { supabaseClient } from '../supabase/supabaseClient'
 
 export interface IPost {
@@ -25,6 +24,7 @@ export default class PostService {
         return data
     }
     static async addOne(values: Partial<IPost>) {
+        // FIXME: extend with messaging
         const { data, error } = await supabaseClient.from('posts').insert([values])
     }
     static async getPaginated({ queryKey }): Promise<IPost[]> {
