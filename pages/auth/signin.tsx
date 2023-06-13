@@ -1,7 +1,7 @@
 import { FC, FormEvent, useState } from 'react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import {Button, Container, Grid, Stack, TextField, Typography} from '@mui/material'
+import { Button, Container, Grid, Stack, TextField, Typography } from '@mui/material'
 import UserService from '../../services/userService'
 import KeyIcon from '@mui/icons-material/Key'
 import { useRouter } from 'next/router'
@@ -32,8 +32,11 @@ const Signin: FC = () => {
                     case 'Email not confirmed':
                         setError('Адрес почты не подтвержден')
                         return
+                    case 'Invalid login credentials':
+                        setError('Неверный адрес или пароль')
+                        return
                 }
-                setError('Неверный адрес или пароль')
+                setError('Неизвестная ошибка')
             })
         },
     })
@@ -47,9 +50,7 @@ const Signin: FC = () => {
                 <Meta title='Авторизация' description='' />
 
                 <Stack sx={{ my: 20 }} component={'form'} onSubmit={handleSubmit}>
-                    <Typography variant={'h3'}>
-                        Вход
-                    </Typography>
+                    <Typography variant={'h3'}>Вход</Typography>
                     {error && <Typography color={'error'}>{error}</Typography>}
                     <TextField
                         margin={'dense'}
@@ -84,7 +85,6 @@ const Signin: FC = () => {
                 </Stack>
             </Grid>
         </Container>
-
     )
 }
 

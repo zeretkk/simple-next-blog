@@ -27,13 +27,22 @@ const Signin: FC = () => {
             secondName: Yup.string().required('Обязательно для заполнения').max(65, 'Максимум 64 символа'),
         }),
         onSubmit: (values) => {
-            UserService.signUp(values).then((data) => {
-                if (!data.error) {
-                    router.push('/auth/signin')
-                    return
-                }
-                setError('Ошибка создания акаунта')
-            })
+            UserService.signUp(values)
+                .then((data) => {
+                    if (data) {
+                        router.push('/auth/signin')
+                        return
+                    }
+                })
+                .catch((err) => {
+                    console.error(err)
+                    switch (err.message) {
+                        case 'User already registered':
+                            setError('Пользователь с такой почтой уже зарегистрирован')
+                            return
+                    }
+                    setError('Ошибка создания акаунта')
+                })
         },
     })
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
