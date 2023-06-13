@@ -74,7 +74,7 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
                     </Typography>
                     <Stack>
                         {user?.id === post.author_id && (
-                            <IconButton color='error' onClick={handleDelete} disabled={!deleteLoading}>
+                            <IconButton color='error' onClick={handleDelete} disabled={deleteLoading}>
                                 <DeleteIcon />
                             </IconButton>
                         )}
