@@ -1,8 +1,9 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
 import { FC, HTMLAttributes, useState } from 'react'
-import PostService, { IPost } from '../../services/PostService'
+import PostService from '../../services/PostService'
 import {
     Avatar,
+    Badge,
     Box,
     Button,
     CircularProgress,
@@ -19,8 +20,9 @@ import Meta from '../../components/Meta'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { useAuth } from '../../supabase/authProvider'
-import moment from 'moment'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 import ComentarySection from '../../components/Posts/CommentarySection'
+import { IPost } from '../../types/posts'
 
 interface IPostPageProps extends HTMLAttributes<any>, InferGetStaticPropsType<typeof getStaticProps> {}
 
@@ -28,6 +30,13 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
     const { user } = useAuth()
     const router = useRouter()
     const queryClient = useQueryClient()
+    const { data: reactions, error } = useQuery(['postReactons', { liked: false, likes: post.reactions }], {
+        queryFn: () => {
+            if (user) return PostService.getReactions(post.id, user.id)
+            return PostService.getReactions(post.id)
+        },
+        initialData: { liked: false, likes: parseInt(post.reactions) },
+    })
     const { isLoading: deleteLoading, ...deleteMutation } = useMutation({
         mutationFn: (id: number) => {
             return PostService.deleteOne(id)
@@ -37,16 +46,29 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
             return router.push('/posts')
         },
     })
+    const { isLoading: likeLoading, ...likeMutation } = useMutation({
+        mutationKey: ['postReactons', post.id],
+        mutationFn: (id: number) => {
+            if (reactions.liked) return PostService.deleteReaction(id, user.id)
+            return PostService.addReaction(id)
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries(['postReactons'])
+        },
+    })
 
     const handleDelete = () => {
         deleteMutation.mutate(post.id)
     }
+    const handleLike = () => {
+        likeMutation.mutate(post.id)
+    }
 
     return (
         <Container>
-            <Stack>
+            <Stack mt={2}>
                 <Meta title={post.title} description={`${post.body.slice(0, 1800)}...`} />
-                <Stack direction={'row'} justifyContent={'space-between'}>
+                <Stack direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
                     <Typography variant='h3' align='center'>
                         {post.title}
                     </Typography>
@@ -54,6 +76,17 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
                         {user?.id === post.author_id && (
                             <IconButton color='error' onClick={handleDelete} disabled={!deleteLoading}>
                                 <DeleteIcon />
+                            </IconButton>
+                        )}
+                        {user?.id !== post.author_id && (
+                            <IconButton
+                                disabled={likeLoading}
+                                color={reactions.liked ? 'primary' : 'secondary'}
+                                onClick={handleLike}
+                            >
+                                <Badge badgeContent={`${reactions?.likes}`} color='primary'>
+                                    <FavoriteIcon />
+                                </Badge>
                             </IconButton>
                         )}
                     </Stack>

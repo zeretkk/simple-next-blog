@@ -1,10 +1,11 @@
 import { Avatar, Box, IconButton, Stack, Typography } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
-import PostService, { IComent } from '../../services/PostService'
+import PostService from '../../services/PostService'
 import { FC, HTMLAttributes } from 'react'
 import moment from 'moment'
 import { useAuth } from '../../supabase/authProvider'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { IComent } from '../../types/posts'
 
 export interface CommentaryItemProps extends HTMLAttributes<any> {
     coment: IComent

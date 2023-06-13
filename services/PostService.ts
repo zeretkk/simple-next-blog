@@ -1,24 +1,5 @@
 import { supabaseClient } from '../supabase/supabaseClient'
-
-export interface IPost {
-    created_at: string
-    title: string
-    body: string
-    tags: string
-    id: number
-    reactions: string
-    poster_url: string
-    author: string
-    author_id?: string
-}
-export interface IComent {
-    id: number
-    created_at: string
-    post_id: number
-    author_id: string
-    author_name: string
-    body: string
-}
+import { IComent, IPost } from '../types/posts'
 
 export default class PostService {
     static async getAll(): Promise<IPost[]> {
@@ -65,5 +46,26 @@ export default class PostService {
     static async deleteComent(comentId: number): Promise<void> {
         const { error } = await supabaseClient.from('coments').delete().eq('id', comentId)
         if (error) throw error
+    }
+    static async getReactions(postId: number, authorId?: string): Promise<{ liked: boolean; likes: number }> {
+        const { data: likedByUser, error } = authorId
+            ? await supabaseClient.from('reactions').select('*').eq('to', postId).eq('author', authorId)
+            : await supabaseClient.from('reactions').select('*').eq('to', postId)
+        const { count: likes, error: likesError } = await supabaseClient
+            .from('reactions')
+            .select('id, author', { count: 'exact' })
+            .eq('to', postId)
+        if (error) throw error
+        if (likesError) throw likesError
+        return { liked: likedByUser?.length > 0 ?? false, likes: likes }
+    }
+    static async addReaction(postId: number): Promise<void> {
+        const { error } = await supabaseClient.from('reactions').insert([{ to: postId, type: true }])
+        if (error) throw error
+    }
+    static async deleteReaction(postId: number, author_id: string): Promise<void> {
+        const { error } = await supabaseClient.from('reactions').delete().eq('to', postId).eq('author', author_id)
+        if (error) throw error
+        return
     }
 }
