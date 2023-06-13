@@ -59,13 +59,11 @@ export default class PostService {
         return data as IComent[]
     }
     static async addComent({ post_id, body }: Partial<IComent>): Promise<void> {
-        const { data, error } = await supabaseClient.from('coments').insert([
-            {
-                post_id,
-                body,
-            },
-        ])
+        const { error } = await supabaseClient.from('coments').insert([{ post_id, body }])
         if (error) throw error
-        return data
+    }
+    static async deleteComent(comentId: number): Promise<void> {
+        const { error } = await supabaseClient.from('coments').delete().eq('id', comentId)
+        if (error) throw error
     }
 }
