@@ -4,7 +4,7 @@ import { Container } from '@mui/material'
 
 const Posts: FC = () => {
     return (
-        <Container sx={{ pt: 2 }}>
+        <Container>
             <PostList />
         </Container>
     )

@@ -35,7 +35,6 @@ const Signin: FC = () => {
                     }
                 })
                 .catch((err) => {
-                    console.error(err)
                     switch (err.message) {
                         case 'User already registered':
                             setError('Пользователь с такой почтой уже зарегистрирован')
