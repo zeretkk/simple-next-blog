@@ -72,24 +72,26 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
                     <Typography variant='h3' align='center'>
                         {post.title}
                     </Typography>
-                    <Stack>
-                        {user?.id === post.author_id && (
-                            <IconButton color='error' onClick={handleDelete} disabled={deleteLoading}>
-                                <DeleteIcon />
-                            </IconButton>
-                        )}
-                        {user?.id !== post.author_id && (
-                            <IconButton
-                                disabled={likeLoading}
-                                color={reactions.liked ? 'primary' : 'secondary'}
-                                onClick={handleLike}
-                            >
-                                <Badge badgeContent={`${reactions?.likes}`} color='primary'>
-                                    <FavoriteIcon />
-                                </Badge>
-                            </IconButton>
-                        )}
-                    </Stack>
+                    {user && (
+                        <Stack>
+                            {user?.id === post.author_id && (
+                                <IconButton color='error' onClick={handleDelete} disabled={deleteLoading}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            )}
+                            {user?.id !== post.author_id && (
+                                <IconButton
+                                    disabled={likeLoading || user?.id === post.author_id}
+                                    color={reactions.liked ? 'primary' : 'secondary'}
+                                    onClick={handleLike}
+                                >
+                                    <Badge badgeContent={`${reactions?.likes}`} color='primary'>
+                                        <FavoriteIcon />
+                                    </Badge>
+                                </IconButton>
+                            )}
+                        </Stack>
+                    )}
                 </Stack>
                 <Divider />
                 <Container sx={{ my: 2 }}>
