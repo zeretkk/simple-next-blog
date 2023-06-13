@@ -4,7 +4,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { FC } from 'react'
 import * as Yup from 'yup'
-import PostService, { IPost } from '../../services/PostService'
+import PostService from '../../services/PostService'
+import { IPost } from '../../types/posts'
 
 const PostForm: FC = () => {
     const queryClient = useQueryClient()
@@ -44,43 +45,43 @@ const PostForm: FC = () => {
         <Grid item>
             {mutation.isError && <Typography color={'error'}>Ошибка при добавлении записи</Typography>}
             <TextField
-                margin="dense"
+                margin='dense'
                 error={Boolean(formik.errors.title)}
                 required
-                label="Название"
-                name="title"
+                label='Название'
+                name='title'
                 value={formik.values.title}
                 onChange={formik.handleChange}
                 helperText={formik.touched.title && formik.errors.title ? formik.errors.title : ''}
                 fullWidth
             />
             <TextField
-                margin="dense"
+                margin='dense'
                 error={Boolean(formik.errors.tags)}
                 required
-                label="Тэги"
-                name="tags"
+                label='Тэги'
+                name='tags'
                 value={formik.values.tags}
                 onChange={formik.handleChange}
                 helperText={formik.touched.tags && formik.errors.tags ? formik.errors.tags : ''}
                 fullWidth
             />
             <TextField
-                margin="dense"
+                margin='dense'
                 required
                 error={Boolean(formik.errors.poster_url)}
-                label="Постер"
-                name="poster_url"
+                label='Постер'
+                name='poster_url'
                 value={formik.values.poster_url}
                 helperText={formik.touched.poster_url && formik.errors.poster_url ? formik.errors.poster_url : ''}
                 onChange={formik.handleChange}
                 fullWidth
             />
             <TextField
-                margin="dense"
+                margin='dense'
                 // required
-                label="Текст"
-                name="body"
+                label='Текст'
+                name='body'
                 error={Boolean(formik.errors.body)}
                 value={formik.values.body}
                 helperText={formik.touched.body && formik.errors.body ? formik.errors.body : ''}
@@ -89,7 +90,7 @@ const PostForm: FC = () => {
                 fullWidth
                 multiline
             />
-            <Button color="success" variant="contained" fullWidth onClick={formik.submitForm}>
+            <Button color='success' variant='contained' fullWidth onClick={formik.submitForm}>
                 Добавить
             </Button>
         </Grid>

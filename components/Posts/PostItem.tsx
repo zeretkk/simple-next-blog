@@ -1,7 +1,7 @@
 import { Button, Card, CardActions, CardContent, CardMedia, Typography } from '@mui/material'
 import { FC, HTMLAttributes } from 'react'
-import { IPost } from '../../services/PostService'
 import Link from 'next/link'
+import { IPost } from '../../types/posts'
 
 export interface IPostItemProps extends HTMLAttributes<any> {
     post: IPost
