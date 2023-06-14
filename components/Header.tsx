@@ -1,7 +1,6 @@
 import { FC, useState, MouseEvent } from 'react'
 import {
     AppBar,
-    Avatar,
     Box,
     Button,
     Container,
@@ -19,6 +18,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import Link from 'next/link'
 import { useAuth } from '../supabase/authProvider'
 import UserService from '../services/userService'
+import ColoredAvatar from './ColoredAvatar'
 
 const pages = [
     { path: '/', title: 'Главная' },
@@ -121,7 +121,7 @@ const Header: FC = () => {
                         <>
                             <Tooltip title='Профиль'>
                                 <IconButton onClick={handleOpenProfileMenu}>
-                                    <Avatar>{profile?.full_name?.[0]}</Avatar>
+                                    <ColoredAvatar component={'span'} designator={profile?.full_name} />
                                 </IconButton>
                             </Tooltip>
                             <Menu
