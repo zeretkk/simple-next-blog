@@ -14,7 +14,7 @@ import { IPost } from '../../types/posts'
 interface IPostPageProps extends HTMLAttributes<any>, InferGetStaticPropsType<typeof getStaticProps> {}
 
 const PostPage: FC<IPostPageProps> = ({ post }) => {
-    const { user } = useAuth()
+    const { user, group } = useAuth()
     const router = useRouter()
     const queryClient = useQueryClient()
     const { data: reactions, error } = useQuery(['postReactons', { liked: false, likes: post.reactions }], {
@@ -60,8 +60,8 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
                         {post.title}
                     </Typography>
                     {user && (
-                        <Stack>
-                            {user?.id === post.author_id && (
+                        <Stack direction={'row'}>
+                            {(user?.id === post.author_id || group?.post_deleting) && (
                                 <IconButton color='error' onClick={handleDelete} disabled={deleteLoading}>
                                     <DeleteIcon />
                                 </IconButton>
@@ -102,13 +102,19 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
 
 export const getStaticProps: GetStaticProps<{ post: IPost }> = async ({ params }) => {
     if (params) {
-        const post = await PostService.getOne(params.id as string)
-        if (!post.id) return { notFound: true }
-        return {
-            props: {
-                post,
-            },
-            revalidate: 60,
+        try {
+            const post = await PostService.getOne(params.id as string)
+            if (!post.id) return { notFound: true }
+            return {
+                props: {
+                    post,
+                },
+                revalidate: 60,
+            }
+        } catch {
+            return {
+                notFound: true,
+            }
         }
     }
     return {
