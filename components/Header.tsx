@@ -1,14 +1,32 @@
 import { FC, useState, MouseEvent } from 'react'
-import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
+import {
+    AppBar,
+    Avatar,
+    Box,
+    Button,
+    Container,
+    Divider,
+    IconButton,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Tooltip,
+    Typography,
+} from '@mui/material'
 import FlutterDash from '@mui/icons-material/FlutterDash'
 import MenuIcon from '@mui/icons-material/Menu'
 import Link from 'next/link'
+import { useAuth } from '../supabase/authProvider'
+import UserService from '../services/userService'
+
 const pages = [
     { path: '/', title: 'Главная' },
-    { path: '/users', title: 'Пользователи' },
+    { path: '/posts ', title: 'Публикации' },
 ]
 const Header: FC = () => {
+    const { profile } = useAuth()
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
+    const [anchorProfileMenu, setProfileMenu] = useState<null | HTMLElement>(null)
     const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget)
     }
@@ -16,14 +34,21 @@ const Header: FC = () => {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null)
     }
+    const handleOpenProfileMenu = (event: MouseEvent<HTMLElement>) => {
+        setProfileMenu(event.currentTarget)
+    }
+
+    const handleCloseProfileMenu = () => {
+        setProfileMenu(null)
+    }
 
     return (
-        <AppBar position="static">
-            <Container maxWidth="xl">
+        <AppBar position='static'>
+            <Container maxWidth='xl'>
                 <Toolbar disableGutters>
                     <FlutterDash sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
                     <Typography
-                        variant="h6"
+                        variant='h6'
                         noWrap
                         sx={{
                             display: { xs: 'none', md: 'flex' },
@@ -31,21 +56,19 @@ const Header: FC = () => {
                     >
                         SychTest
                     </Typography>
-                    {/*d-none on xs*/}
-                    {/*d-none on md*/}
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
+                            size='large'
+                            aria-label='account of current user'
+                            aria-controls='menu-appbar'
+                            aria-haspopup='true'
                             onClick={handleOpenNavMenu}
-                            color="inherit"
+                            color='inherit'
                         >
                             <MenuIcon />
                         </IconButton>
                         <Menu
-                            id="menu-appbar"
+                            id='menu-appbar'
                             anchorEl={anchorElNav}
                             anchorOrigin={{
                                 vertical: 'bottom',
@@ -71,7 +94,7 @@ const Header: FC = () => {
                     </Box>
                     <FlutterDash sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
                     <Typography
-                        variant="h5"
+                        variant='h5'
                         noWrap
                         sx={{
                             mr: 2,
@@ -93,6 +116,32 @@ const Header: FC = () => {
                             </Link>
                         ))}
                     </Box>
+                    {profile ? (
+                        <>
+                            <Tooltip title='Профиль'>
+                                <IconButton onClick={handleOpenProfileMenu}>
+                                    <Avatar>{profile?.full_name?.[0]}</Avatar>
+                                </IconButton>
+                            </Tooltip>
+                            <Menu
+                                open={Boolean(anchorProfileMenu)}
+                                anchorEl={anchorProfileMenu}
+                                onClick={handleCloseProfileMenu}
+                                onClose={handleCloseProfileMenu}
+                            >
+                                <MenuItem>{profile?.full_name}</MenuItem>
+                                <Divider />
+                                <MenuItem>Настройки</MenuItem>
+                                <MenuItem onClick={UserService.signOut}>
+                                    <Typography color='error'>Выход</Typography>
+                                </MenuItem>
+                            </Menu>
+                        </>
+                    ) : (
+                        <Link href='/auth/signin'>
+                            <Button color='secondary'>Войти</Button>
+                        </Link>
+                    )}
                 </Toolbar>
             </Container>
         </AppBar>

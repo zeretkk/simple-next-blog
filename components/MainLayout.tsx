@@ -1,12 +1,16 @@
 import { FC, HTMLAttributes } from 'react'
-import { Container } from '@mui/material'
+import { Box } from '@mui/material'
 import Header from './Header'
+import Footer from './Footer'
 
 const MainLayout: FC<HTMLAttributes<HTMLDivElement>> = ({ children }) => {
     return (
         <>
             <Header />
-            <Container sx={{ mt: 2 }}>{children}</Container>
+            <Box minHeight={'100vh'} py={2}>
+                {children}
+            </Box>
+            <Footer />
         </>
     )
 }

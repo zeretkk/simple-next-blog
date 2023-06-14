@@ -1,16 +1,16 @@
 import Head from 'next/head'
 import { FC } from 'react'
 
-export interface MetaProps {
+export interface IMetaProps {
     title: string
     description: string
 }
 
-const Meta: FC<MetaProps> = ({ title, description }) => {
+const Meta: FC<IMetaProps> = ({ title, description = '' }) => {
     return (
         <Head>
             <title>{`Sychtest | ${title}`}</title>
-            <meta name="description" content={description} />
+            <meta name='description' content={description} />
         </Head>
     )
 }

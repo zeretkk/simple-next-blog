@@ -1,74 +1,43 @@
-import { Button, CircularProgress, Collapse, Grid, Typography } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
-import PostService from '../services/PostService'
-import AddIcon from '@mui/icons-material/Add'
-import CloseIcon from '@mui/icons-material/Close'
-import { useEffect, useState } from 'react'
-import PostItem from '../components/Posts/PostItem'
-import PostForm from '../components/Posts/PostForm'
+import Link from 'next/link'
 import Meta from '../components/Meta'
+import { Button, Container, Typography, Link as MuiLink, Stack } from '@mui/material'
 
 export default function Home() {
-    const [isHidden, setIsHidden] = useState(true)
-    const { isLoading, isError, data } = useQuery({
-        queryKey: ['posts'],
-        queryFn: PostService.getAll,
-    })
-    const handleClick = () => {
-        setIsHidden(!isHidden)
-    }
-    if (isLoading) {
-        return (
-            <Grid
-                container
-                direction={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                sx={{ height: '100dvh' }}
-            >
-                <Grid item>
-                    <CircularProgress />
-                </Grid>
-            </Grid>
-        )
-    }
-    if (isError) {
-        return (
-            <Grid
-                container
-                direction={'column'}
-                justifyContent={'center'}
-                alignItems={'center'}
-                sx={{ height: '100dvh' }}
-            >
-                <Grid item>
-                    <Typography color={'red'}>Все сломалось</Typography>
-                </Grid>
-            </Grid>
-        )
-    }
-
     return (
-        <Grid container direction={'column'} gap={2}>
-            <Meta title="Главная" description="Главня страница сайта" />
-            <Collapse in={!isHidden}>
-                <Grid item>
-                    <PostForm />
-                </Grid>
-            </Collapse>
-            <Grid item>
-                <Button size="large" fullWidth color="primary" variant="contained" onClick={handleClick}>
-                    {isHidden ? <AddIcon /> : <CloseIcon />}
-                </Button>
-            </Grid>
-
-            {data.map((post, i) => {
-                return (
-                    <Grid item key={i}>
-                        <PostItem post={post} />
-                    </Grid>
-                )
-            })}
-        </Grid>
+        <>
+            <Stack
+                sx={{ backgroundImage: 'url(/bg.jpg)', minHeight: '100vh', mt: -2 }}
+                direction={'column'}
+                justifyContent={'center'}
+                alignItems={'center'}
+            >
+                <Meta title={'Главная'} description={'Главная страница лучшего блока в интернете'} />
+                <Typography variant={'h3'} align={'center'} sx={{ pt: 5 }} color={'white'}>
+                    Добро пожаловать на страницу лучшего блога в интернете
+                </Typography>
+                <Typography variant={'h4'} align={'center'} color={'white'}>
+                    Тут можно найти{' '}
+                    <Typography variant='h4' textTransform='uppercase' component={'span'} fontWeight={'bold'}>
+                        ничего
+                    </Typography>
+                    !
+                </Typography>
+                <MuiLink component={Link} href='/posts'>
+                    <Button sx={{ mx: 'auto', display: 'block', my: 2 }} variant='contained' color='success'>
+                        Читать
+                    </Button>
+                </MuiLink>
+            </Stack>
+            <Container>
+                <Stack>
+                    <Typography variant='h3' align='center'>
+                        О нас
+                    </Typography>
+                    <Typography>Тут тоже должна быть невероятно важная инфомрация.</Typography>
+                    <Typography>Возможно она даже тут появится.</Typography>
+                    <Typography>Но острой необходимости пока нет.</Typography>
+                </Stack>
+            </Container>
+        </>
     )
 }
