@@ -1,5 +1,4 @@
 import {
-    Avatar,
     Box,
     Button,
     CircularProgress,
@@ -15,7 +14,6 @@ import { FC, FormEvent, useState } from 'react'
 import { useAuth } from '../../supabase/authProvider'
 import PostService from '../../services/PostService'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import moment from 'moment'
 import CommenatyItem from './CommentaryItem'
 
 export interface IComentarySectionProps {

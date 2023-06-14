@@ -1,20 +1,7 @@
 import { GetStaticPaths, GetStaticProps, InferGetStaticPropsType } from 'next'
-import { FC, HTMLAttributes, useState } from 'react'
+import { FC, HTMLAttributes } from 'react'
 import PostService from '../../services/PostService'
-import {
-    Avatar,
-    Badge,
-    Box,
-    Button,
-    CircularProgress,
-    Collapse,
-    Container,
-    Divider,
-    IconButton,
-    Stack,
-    TextField,
-    Typography,
-} from '@mui/material'
+import { Badge, Box, Container, Divider, IconButton, Stack, Typography } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import Meta from '../../components/Meta'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'

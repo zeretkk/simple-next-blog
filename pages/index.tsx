@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import Meta from '../components/Meta'
-import { Button, Container, Typography, Link as MuiLink, Grid, Stack } from '@mui/material'
+import { Button, Container, Typography, Link as MuiLink, Stack } from '@mui/material'
 
 export default function Home() {
     return (
