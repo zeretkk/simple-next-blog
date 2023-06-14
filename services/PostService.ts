@@ -19,14 +19,16 @@ export default class PostService {
         if (error) throw error
         return data
     }
-    static async getPaginated({ queryKey }): Promise<IPost[]> {
+    static async getPaginated({ queryKey }): Promise<{ posts: IPost[]; count: number }> {
         const page = queryKey[1]
         const { data, error } = await supabaseClient.rpc('get_posts', {
             page,
             perpage: 10,
         })
         if (error) throw error
-        return data
+        const { data: count, error: pagesErr } = await supabaseClient.rpc('get_total_posts_count')
+        if (pagesErr) throw pagesErr
+        return { posts: data, count }
     }
     static async deleteOne(postId: number): Promise<void> {
         const { data, error } = await supabaseClient.from('posts').delete().eq('id', postId)
