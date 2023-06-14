@@ -25,7 +25,7 @@ const Signin: FC = () => {
         onSubmit: (values) => {
             UserService.signIn(values).then((data) => {
                 if (!data.error) {
-                    router.push('/')
+                    router.back()
                     return
                 }
                 switch (data.error.message) {
