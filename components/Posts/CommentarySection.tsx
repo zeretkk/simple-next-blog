@@ -78,6 +78,8 @@ const ComentarySection: FC<IComentarySectionProps> = ({ postId }) => {
                             fullWidth
                             label='Комментарий'
                             margin='normal'
+                            error={newComent.length < 3 && newComent.length > 0}
+                            helperText={newComent.length < 3 ? 'Должно содержать не менее 3х символов' : ''}
                             value={newComent}
                             onChange={(event) => {
                                 setNewComent(event.target.value)
@@ -89,7 +91,7 @@ const ComentarySection: FC<IComentarySectionProps> = ({ postId }) => {
                             color='success'
                             variant='contained'
                             onClick={handleAddComent}
-                            disabled={addComentLoading}
+                            disabled={addComentLoading || newComent.length < 3}
                         >
                             Отправить
                         </Button>
