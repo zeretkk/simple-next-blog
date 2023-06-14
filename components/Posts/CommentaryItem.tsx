@@ -12,7 +12,7 @@ export interface CommentaryItemProps extends HTMLAttributes<any> {
 }
 
 const CommenatyItem: FC<CommentaryItemProps> = ({ coment }) => {
-    const { user } = useAuth()
+    const { user, group } = useAuth()
     const queryClient = useQueryClient()
     const {
         isLoading: deleteComentLoading,
@@ -56,7 +56,7 @@ const CommenatyItem: FC<CommentaryItemProps> = ({ coment }) => {
                 </Avatar>
                 <Typography>{coment.author_name}</Typography>
                 <Typography variant='caption'>{moment(coment.created_at).format('DD.MM.YYYY HH:mm')}</Typography>
-                {user?.id === coment.author_id && (
+                {(user?.id === coment.author_id || group?.comment_deleting) && (
                     <IconButton
                         color='error'
                         onClick={() => handleDeleteComent(coment.id)}

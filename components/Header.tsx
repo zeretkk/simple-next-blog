@@ -13,6 +13,7 @@ import {
     Tooltip,
     Typography,
 } from '@mui/material'
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
 import FlutterDash from '@mui/icons-material/FlutterDash'
 import MenuIcon from '@mui/icons-material/Menu'
 import Link from 'next/link'
@@ -24,7 +25,7 @@ const pages = [
     { path: '/posts ', title: 'Публикации' },
 ]
 const Header: FC = () => {
-    const { profile } = useAuth()
+    const { profile, group } = useAuth()
     const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
     const [anchorProfileMenu, setProfileMenu] = useState<null | HTMLElement>(null)
     const handleOpenNavMenu = (event: MouseEvent<HTMLElement>) => {
@@ -130,6 +131,11 @@ const Header: FC = () => {
                                 onClose={handleCloseProfileMenu}
                             >
                                 <MenuItem>{profile?.full_name}</MenuItem>
+                                <MenuItem>
+                                    <SupervisorAccountIcon />
+
+                                    <Typography>{group?.name}</Typography>
+                                </MenuItem>
                                 <Divider />
                                 <MenuItem>Настройки</MenuItem>
                                 <MenuItem onClick={UserService.signOut}>

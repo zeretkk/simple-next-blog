@@ -1,13 +1,15 @@
 import { Session, SupabaseClient, User } from '@supabase/supabase-js'
 import { FC, HTMLAttributes, createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { IProfile } from '../types/user'
+import { IGroup, IProfile } from '../types/user'
+import { error } from 'console'
 
 export interface IAuthContext {
     user: User | null
     session: Session | null
     profile: IProfile | null
+    group: IGroup | null
 }
-export const AuthContext = createContext<IAuthContext>({ user: null, session: null, profile: null })
+export const AuthContext = createContext<IAuthContext>({ user: null, session: null, profile: null, group: null })
 
 export interface IAuthProviderProps extends HTMLAttributes<any> {
     client: SupabaseClient
@@ -16,6 +18,7 @@ const AuthProvider: FC<IAuthProviderProps> = ({ client, ...props }) => {
     const [session, setSesion] = useState<Session | null>(null)
     const [user, setUser] = useState<User | null>(null)
     const [profile, setProfile] = useState<IProfile | null>(null)
+    const [group, setGroup] = useState<IGroup | null>(null)
 
     useEffect(() => {
         client.auth.onAuthStateChange(async (event, session) => {
@@ -50,9 +53,24 @@ const AuthProvider: FC<IAuthProviderProps> = ({ client, ...props }) => {
             user,
             session,
             profile,
+            group,
         }),
-        [user, session, profile]
+        [user, session, profile, group]
     )
+    useEffect(() => {
+        if (!profile) return
+        client
+            .from('groups')
+            .select('*')
+            .eq('id', profile?.group)
+            .single<IGroup>()
+            .then(({ data, error }) => {
+                if (error) {
+                    console.log('unable to resolve group', error)
+                }
+                setGroup(data)
+            })
+    }, [client, profile])
     return <AuthContext.Provider value={contextValue} {...props} />
 }
 export default AuthProvider
