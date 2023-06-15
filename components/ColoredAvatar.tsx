@@ -5,7 +5,7 @@ interface ColoredAvatarProps extends ComponentProps<typeof Avatar> {
     designator: string
     component: ElementType
 }
-const ColoredAvatar: FC<ColoredAvatarProps> = ({ designator, ...props }) => {
+const ColoredAvatar: FC<ColoredAvatarProps> = ({ designator, component = 'div', ...props }) => {
     const stringToColor = (string: string) => {
         let hash = 0
         let i
@@ -23,7 +23,7 @@ const ColoredAvatar: FC<ColoredAvatarProps> = ({ designator, ...props }) => {
         return color
     }
     return (
-        <Avatar sx={{ bgcolor: stringToColor(designator) }} {...props}>
+        <Avatar sx={{ bgcolor: stringToColor(designator) }} component={component} {...props}>
             {designator?.substring(0, 1)}
         </Avatar>
     )
