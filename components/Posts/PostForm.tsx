@@ -14,7 +14,7 @@ const PostForm: FC = () => {
         },
         onSuccess: () => {
             queryClient.invalidateQueries(['posts'])
-            // formik.resetForm()
+            formik.resetForm()
         },
     })
     const formik = useFormik({
