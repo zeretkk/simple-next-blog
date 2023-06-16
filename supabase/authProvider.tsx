@@ -34,8 +34,6 @@ const AuthProvider: FC<IAuthProviderProps> = ({ client, ...props }) => {
                         .single<IProfile>()
                     if (!error) {
                         setProfile(data)
-                    } else {
-                        console.log(error)
                     }
                     break
                 case 'SIGNED_OUT':
