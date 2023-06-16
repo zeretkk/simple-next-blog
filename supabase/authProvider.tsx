@@ -1,8 +1,6 @@
 import { Session, SupabaseClient, User } from '@supabase/supabase-js'
 import { FC, HTMLAttributes, createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { IGroup, IProfile } from '../types/user'
-import { error } from 'console'
-
 export interface IAuthContext {
     user: User | null
     session: Session | null

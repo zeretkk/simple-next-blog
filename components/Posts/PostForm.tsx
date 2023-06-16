@@ -34,7 +34,7 @@ const PostForm: FC = () => {
                 .max(120, 'Не более 120 символов')
                 .required('Обязательно для заполнения'),
             poster_url: Yup.string().url('Должно содержать валидную ссылку').required('Обязательно для заполнения'),
-            body: Yup.string().min(10, 'Не менее 10 символов').max(1024, 'Не более 1024 символов'),
+            body: Yup.string().min(10, 'Не менее 10 символов').max(4096, 'Не более 4096 символов'),
         }),
         onSubmit: (values) => {
             mutation.mutate(values)
