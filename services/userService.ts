@@ -7,7 +7,6 @@ export default abstract class UserService {
             ...credentials,
             options: { data: { full_name: fullName } },
         })
-        console.log(data, error)
         if (error) throw error
         return data
     }
