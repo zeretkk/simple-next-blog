@@ -10,6 +10,7 @@ import { useAuth } from '../../supabase/authProvider'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import ComentarySection from '../../components/Posts/CommentarySection'
 import { IPost } from '../../types/posts'
+import moment from 'moment'
 
 interface IPostPageProps extends HTMLAttributes<any>, InferGetStaticPropsType<typeof getStaticProps> {}
 
@@ -91,6 +92,9 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
                     </picture>
                 </Container>
                 <Box>
+                    <Typography variant='caption'>
+                        Опубликованно пользователем {post.author} {moment(post.created_at).format('DD.MM.YYYY HH:mm')}
+                    </Typography>
                     <Divider />
                     <Typography>{post.body}</Typography>
                 </Box>
@@ -106,20 +110,14 @@ export const getStaticProps: GetStaticProps<{ post: IPost }> = async ({ params }
             const post = await PostService.getOne(params.id as string)
             if (!post.id) return { notFound: true }
             return {
-                props: {
-                    post,
-                },
+                props: { post },
                 revalidate: 60,
             }
         } catch {
-            return {
-                notFound: true,
-            }
+            return { notFound: true }
         }
     }
-    return {
-        notFound: true,
-    }
+    return { notFound: true }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {

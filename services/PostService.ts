@@ -53,11 +53,12 @@ export default class PostService {
         const { data: likedByUser, error } = authorId
             ? await supabaseClient.from('reactions').select('*').eq('to', postId).eq('author', authorId)
             : await supabaseClient.from('reactions').select('*').eq('to', postId)
+        if (error) throw error
         const { count: likes, error: likesError } = await supabaseClient
             .from('reactions')
             .select('id, author', { count: 'exact' })
             .eq('to', postId)
-        if (error) throw error
+        console.log('likes', likes)
         if (likesError) throw likesError
         return { liked: likedByUser?.length > 0 ?? false, likes: likes }
     }
