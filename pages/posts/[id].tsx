@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
 import { useAuth } from '../../supabase/authProvider'
 import FavoriteIcon from '@mui/icons-material/Favorite'
-import ComentarySection from '../../components/Posts/CommentarySection'
+import CommentarySection from '../../components/Posts/CommentarySection'
 import { IPost } from '../../types/posts'
 import moment from 'moment'
 
@@ -18,7 +18,7 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
     const { user, group } = useAuth()
     const router = useRouter()
     const queryClient = useQueryClient()
-    const { data: reactions, error } = useQuery(['postReactons', { liked: false, likes: post.reactions }], {
+    const { data: reactions, error } = useQuery(['postReactions', { liked: false, likes: post.reactions }], {
         queryFn: () => {
             if (user) return PostService.getReactions(post.id, user.id)
             return PostService.getReactions(post.id)
@@ -35,13 +35,13 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
         },
     })
     const { isLoading: likeLoading, ...likeMutation } = useMutation({
-        mutationKey: ['postReactons', post.id],
+        mutationKey: ['postReactions', post.id],
         mutationFn: (id: number) => {
             if (reactions.liked) return PostService.deleteReaction(id, user.id)
             return PostService.addReaction(id)
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['postReactons'])
+            queryClient.invalidateQueries(['postReactions'])
         },
     })
 
@@ -98,7 +98,7 @@ const PostPage: FC<IPostPageProps> = ({ post }) => {
                     <Divider />
                     <Typography>{post.body}</Typography>
                 </Box>
-                <ComentarySection postId={post.id} />
+                <CommentarySection postId={post.id} />
             </Stack>
         </Container>
     )

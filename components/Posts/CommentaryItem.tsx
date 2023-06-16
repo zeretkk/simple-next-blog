@@ -12,7 +12,7 @@ export interface CommentaryItemProps extends HTMLAttributes<any> {
     coment: IComent
 }
 
-const CommenatyItem: FC<CommentaryItemProps> = ({ coment }) => {
+const CommentaryItem: FC<CommentaryItemProps> = ({ coment }) => {
     const { user, group } = useAuth()
     const queryClient = useQueryClient()
     const {
@@ -51,4 +51,4 @@ const CommenatyItem: FC<CommentaryItemProps> = ({ coment }) => {
         </Box>
     )
 }
-export default CommenatyItem
+export default CommentaryItem

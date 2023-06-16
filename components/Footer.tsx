@@ -1,5 +1,4 @@
 import { Box, Container, Typography } from '@mui/material'
-import Link from 'next/link'
 import { FC } from 'react'
 
 const Footer: FC = () => {
