@@ -64,7 +64,7 @@ const AuthProvider: FC<IAuthProviderProps> = ({ client, ...props }) => {
             .single<IGroup>()
             .then(({ data, error }) => {
                 if (error) {
-                    console.log('unable to resolve group', error)
+                    return
                 }
                 setGroup(data)
             })

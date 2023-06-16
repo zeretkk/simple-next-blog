@@ -58,7 +58,6 @@ export default class PostService {
             .from('reactions')
             .select('id, author', { count: 'exact' })
             .eq('to', postId)
-        console.log('likes', likes)
         if (likesError) throw likesError
         return { liked: likedByUser?.length > 0 ?? false, likes: likes }
     }
