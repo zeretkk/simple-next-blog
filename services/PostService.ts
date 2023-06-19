@@ -35,6 +35,7 @@ export default class PostService {
         if (error) throw error
         return data
     }
+
     static async getComents({ queryKey }): Promise<IComent[]> {
         const postId = queryKey[1]
         const { data, error } = await supabaseClient.rpc('get_coments_by_post', { postid: postId })
@@ -49,10 +50,14 @@ export default class PostService {
         const { error } = await supabaseClient.from('coments').delete().eq('id', comentId)
         if (error) throw error
     }
-    static async getReactions(postId: number, authorId?: string): Promise<{ liked: boolean; likes: number }> {
+
+    static async getReactions(
+        postId: number,
+        authorId?: string
+    ): Promise<{ liked: boolean | null; likes: number | null }> {
         const { data: likedByUser, error } = authorId
             ? await supabaseClient.from('reactions').select('*').eq('to', postId).eq('author', authorId)
-            : await supabaseClient.from('reactions').select('*').eq('to', postId)
+            : { data: null, error: null }
         if (error) throw error
         const { count: likes, error: likesError } = await supabaseClient
             .from('reactions')
